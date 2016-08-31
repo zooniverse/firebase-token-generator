@@ -3,13 +3,21 @@ var firebase = require("firebase");
 var api = require("panoptes-client")
 var config = require("./config.json")
 
-var app = express();
 
+// Constants
+const PORT = 8080;
+
+
+// Initialise the Firebase SDK for Node.js
+// config.json should contains the Firebase service account keys, read more https://firebase.google.com/docs/server/setup#initialize_the_sdk
 firebase.initializeApp({
-  serviceAccount: config, // config contains sensitive data
+  serviceAccount: config,
   databaseURL: "https://project-6243802502502885389.firebaseio.com",
 });
 
+
+// App
+var app = express();
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -18,14 +26,10 @@ app.use(function(req, res, next) {
 });
 
 app.get('/validate', function (req, res, next) {
-  console.log('P A N O P T E S _ T O K E N: ', req.query.token);
-  var customToken = firebase.auth().createCustomToken(req.query.token);
-  console.log('F I R E B A S E _ T O K E N: ', customToken);
-  res.json({
-    token: customToken
-  });
+  const token = firebase.auth().createCustomToken(req.query.token);
+  res.json({ token });
 });
 
-app.listen(8000, function () {
-  console.log('==> Listening on port 8000.');
+app.listen(PORT, function () {
+  console.log('==> Listening on port ' + PORT);
 });
