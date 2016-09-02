@@ -11,5 +11,4 @@ COPY . /express-app
 
 # Run app
 EXPOSE 8080
-RUN node app.js
 CMD ["node", "app.js"]
