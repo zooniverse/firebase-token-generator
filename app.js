@@ -1,10 +1,14 @@
 var express = require('express');
 var firebase = require('firebase');
-var apiClient = require('panoptes-client/lib/api-client');
 var config = require('./config.json');
+
+var fetch = require('isomorphic-fetch');
 
 // Constants
 const PORT = 8080;
+const productionUrl = 'https://www.zooniverse.org/api';
+const stagingUrl = 'https://panoptes-staging.zooniverse.org/api';
+const API_URL = (process.env.NODE_ENV === 'production') ? productionUrl : stagingUrl;
 
 // Initialise the Firebase SDK for Node.js
 // config.json should contains the Firebase service account keys, read more https://firebase.google.com/docs/server/setup#initialize_the_sdk
@@ -28,17 +32,27 @@ function isValidToken(string) {
 // Check Panoptes session
 function sessionExists(token) {
   console.log('Getting session');
-  apiClient.headers.Authorization = 'Bearer ' + token;
-  return apiClient.get('/me')
-    .then(function(users) {
-      var user = users[0];
-      console.log('Got session', user.login, user.id);
-      return user;
+  return fetch(API_URL + '/me', {
+    method: 'GET',
+    mode: 'cors',
+    headers: new Headers({
+      'Accept': 'application/vnd.api+json; version=1',
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json'
     })
-    .catch(function(error) {
-      console.error('Failed to get session');
-      throw error;
-    });
+  })
+  .then(function(response) {
+    return response.json();
+  })
+  .then(function(json) {
+    var user = json.users[0];
+    console.log('Got session', user.login, user.id);
+    return user;
+  })
+  .catch(function(error) {
+    console.error('Failed to get session', error);
+    throw error;
+  });
 }
 
 
