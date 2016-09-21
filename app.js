@@ -73,7 +73,7 @@ app.get('/validate', function (req, res, next) {
       res.json({ token });
     })
   } else {
-    console.log('Invalid token')
+    res.send(422, {error: 'Invalid token'})
   }
 });
 
