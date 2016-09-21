@@ -11,14 +11,14 @@ const stagingUrl = 'https://panoptes-staging.zooniverse.org/api';
 const API_URL = (process.env.NODE_ENV === 'production') ? productionUrl : stagingUrl;
 
 // Initialise the Firebase SDK for Node.js
-// config.json should contains the Firebase service account keys, read more https://firebase.google.com/docs/server/setup#initialize_the_sdk
+// config.json should contain the Firebase service account keys, read more https://firebase.google.com/docs/server/setup#initialize_the_sdk
 firebase.initializeApp({
   serviceAccount: config,
   databaseURL: "https://project-6243802502502885389.firebaseio.com",
 });
 
 
-// Check if token is valid string
+// Validate token
 function isValidToken(string) {
   if (string.match(/([\w\-\.]+)/g)) {
     console.log('Token is valid')
@@ -29,9 +29,9 @@ function isValidToken(string) {
   }
 }
 
-// Check Panoptes session
-function sessionExists(token) {
-  console.log('Getting session');
+// Get current Panoptes user
+function getApiUser(token) {
+  console.log('Getting user');
   return fetch(API_URL + '/me', {
     method: 'GET',
     mode: 'cors',
@@ -46,11 +46,11 @@ function sessionExists(token) {
   })
   .then(function(json) {
     var user = json.users[0];
-    console.log('Got session', user.login, user.id);
+    console.log('Got user: ', user.login, user.id);
     return user;
   })
   .catch(function(error) {
-    console.error('Failed to get session', error);
+    console.error('Failed to get user. Error: ', error);
     throw error;
   });
 }
@@ -66,10 +66,10 @@ app.use(function(req, res, next) {
 });
 
 app.get('/validate', function (req, res, next) {
-  if (isValidToken(req.query.token)) {
-    sessionExists(req.query.token).then(function() {
+  var apiToken = req.query.token;
+  if (isValidToken(apiToken)) {
+    getApiUser(apiToken).then(function() {
       const token = firebase.auth().createCustomToken(req.query.uid);
-      console.log('Firebase token is', token)
       res.json({ token });
     })
   } else {
