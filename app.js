@@ -68,15 +68,15 @@ app.use(function(req, res, next) {
 app.get('/validate', function (req, res, next) {
   var apiToken = req.query.token;
   if (isValidToken(apiToken)) {
-    getApiUser(apiToken).then(function() {
-      const token = firebase.auth().createCustomToken(req.query.uid);
+    getApiUser(apiToken).then(function(user) {
+      const token = firebase.auth().createCustomToken(user.login);
       res.json({ token });
     })
     .catch(function(err) {
-      res.send(403, {error: 'Failed to get API user: ' + err})
+      res.status(403).send({error: 'Failed to get API user: ' + err});
     });
   } else {
-    res.send(422, {error: 'Invalid token'})
+    res.status(422).send({error: 'Invalid token'});
   }
 });
 
