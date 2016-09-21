@@ -1,13 +1,19 @@
 {
   "name": "firebase-token-generator",
   "version": "0.0.1",
-  "description": "Generates Firebase Tokens",
-  "main": "app.js",
+  "description": "Token generator to allow Firebase login with Panoptes credentials",
+  "homepage": "https://github.com/zooniverse/firebase-token-generator",
+  "repository": {
+    "type": "git",
+    "url" : "https://github.com/zooniverse/firebase-token-generator.git"
+  },
+  "bugs": "https://github.com/zooniverse/firebase-token-generator/issues",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "author": "Simone Duca",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "express": "^4.14.0",
     "firebase": "^3.3.0"
