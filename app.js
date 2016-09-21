@@ -10,12 +10,7 @@ const STAGING_URL = 'https://panoptes-staging.zooniverse.org/api';
 const API_URL = (process.env.NODE_ENV === 'production') ? PRODUCTION_URL : STAGING_URL;
 
 // Initialise the Firebase SDK for Node.js
-// config.json should contain the Firebase service account keys
-// read more https://firebase.google.com/docs/server/setup#initialize_the_sdk
-firebase.initializeApp({
-  serviceAccount: config,
-  databaseURL: 'https://project-6243802502502885389.firebaseio.com',
-});
+firebase.initializeApp(config);
 
 // Validate token
 function isValidToken(panoptesToken) {
