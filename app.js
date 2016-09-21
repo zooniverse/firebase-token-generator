@@ -72,6 +72,9 @@ app.get('/validate', function (req, res, next) {
       const token = firebase.auth().createCustomToken(req.query.uid);
       res.json({ token });
     })
+    .catch(function(err) {
+      res.send(403, {error: 'Failed to get API user: ' + err})
+    });
   } else {
     res.send(422, {error: 'Invalid token'})
   }
