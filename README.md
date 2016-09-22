@@ -4,21 +4,43 @@ A simple Express app that takes a Panoptes token and returns a Firebase token.
 
 ---
 
+## Config
+
+The app requires two configuration files, which both go in the project's root directory.
+
+### Credentials
+
+The Firebase service account credentials go in `./serviceAccountCredentials.json`, and can be downloaded directly from Firebase. More information in [the Firebase docs](https://firebase.google.com/docs/server/setup#initialize_the_sdk).
+
+### Config
+
+We also need a `config.json` file, which stores the Firebase project URL:
+
+```json
+{
+  "databaseURL": "https://example-project.firebaseio.com"
+}
+```
+
+---
+
 ## Commands
 
 To install, clone the repo and run `npm install`
 
-To run the app locally, run `node app.js`
+To run the app locally, run `npm start`
 
 Any commits to master triggers an automatic deploy to [https://firebase-token-generator.zooniverse.org/](https://firebase-token-generator.zooniverse.org/).
 
-To get a valid Firebase token, hit the `/validate` route and pass a token in the query string, e.g.:
+To get a valid Firebase token, submit a GET request to the `/validate` route, passing in your Panoptes token in the query string. 
 
-`https://firebase-token-generator.zooniverse.org/validate?token=<yourPanoptesToken>`
+```
+https://firebase-token-generator.zooniverse.org/validate?token=YOUR_PANOPTES_TOKEN
+```
 
 ---
 
-##License
+## License
 
 Copyright 2016 Zooniverse
 
