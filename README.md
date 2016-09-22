@@ -6,14 +6,19 @@ A simple Express app that takes a Panoptes token and returns a Firebase token.
 
 ## Config
 
-The app requires a `config.json` file, which stores the Firebase project URL and service credentials. It needs the following values:
+The app requires two configuration files, which both go in the project's root directory.
+
+### Credentials
+
+The Firebase service account credentials go in `./serviceAccountCredentials.json`, and can be downloaded directly from Firebase. More information in [the Firebase docs](https://firebase.google.com/docs/server/setup#initialize_the_sdk).
+
+### Config
+
+We also need a `config.json` file, which stores the Firebase project URL:
 
 ```json
 {
-  "databaseURL": "https://example-project.firebaseio.com",
-  "serviceAccount": {
-
-  }
+  "databaseURL": "https://example-project.firebaseio.com"
 }
 ```
 

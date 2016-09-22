@@ -1,7 +1,6 @@
 const express = require('express');
 const firebase = require('firebase');
 const fetch = require('isomorphic-fetch');
-const config = require('./config.json');
 
 // Constants
 const PORT = 8080;
@@ -10,7 +9,11 @@ const STAGING_URL = 'https://panoptes-staging.zooniverse.org/api';
 const API_URL = (process.env.NODE_ENV === 'production') ? PRODUCTION_URL : STAGING_URL;
 
 // Initialise the Firebase SDK for Node.js
-firebase.initializeApp(config);
+// Check the README.md file for more information on how the app is configured.
+const config = require('./config.json');
+firebase.initializeApp(Object.assign({}, config, {
+  serviceAccount: './serviceAccountCredentials.json'
+}));
 
 // Validate token
 function isValidToken(panoptesToken) {
