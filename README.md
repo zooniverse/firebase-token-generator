@@ -32,7 +32,7 @@ To run the app locally, run `npm start`
 
 Any commits to master triggers an automatic deploy to [https://firebase-token-generator.zooniverse.org/](https://firebase-token-generator.zooniverse.org/).
 
-To get a valid Firebase token, submit a GET request to the `/validate` route, passing in your Panoptes token in the query string. 
+To get a valid Firebase token, submit a POST request to the `/validate` route, passing in your Panoptes token as a header. 
 
 ```
 https://firebase-token-generator.zooniverse.org/validate?token=YOUR_PANOPTES_TOKEN
