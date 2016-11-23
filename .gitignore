@@ -36,3 +36,5 @@ Temporary Items
 
 # Never store config details in repo
 config.json
+serviceAccountCredentials.json
+
