@@ -54,12 +54,13 @@ const app = express();
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   next();
 });
 
-app.get('/validate', function(req, res, next) {
-  const panoptesToken = req.query.token;
+app.post('/validate', function(req, res, next) {
+  const panoptesToken = req.headers.authorization;
+  console.log('Got Panoptes tokes:', panoptesToken);
   if (isValidToken(panoptesToken)) {
     getPanoptesUser(panoptesToken)
       .then(user => {
