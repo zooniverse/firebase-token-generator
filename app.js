@@ -53,14 +53,17 @@ function getPanoptesUser(panoptesToken) {
 const app = express();
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  var allowedOrigins = /^https?:\/\/(vote|local).zooniverse.org/g;
+  var origin = req.headers.origin;
+  if (origin.match(allowedOrigins)) {
+    res.set('Access-Control-Allow-Origin', origin);
+  }
+  res.header('Access-Control-Allow-Headers', 'Authorization, Content-Type');
   next();
 });
 
 app.post('/validate', function(req, res, next) {
   const panoptesToken = req.headers.authorization;
-  console.log('Got Panoptes tokes:', panoptesToken);
   if (isValidToken(panoptesToken)) {
     getPanoptesUser(panoptesToken)
       .then(user => {
