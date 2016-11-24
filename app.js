@@ -63,7 +63,7 @@ app.use((req, res, next) => {
 });
 
 app.post('/validate', function(req, res, next) {
-  const panoptesToken = req.headers.authorization;
+  const panoptesToken = req.headers.authorization.replace('Bearer ', '');;
   if (isValidToken(panoptesToken)) {
     getPanoptesUser(panoptesToken)
       .then(user => {
