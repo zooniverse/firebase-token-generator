@@ -53,7 +53,7 @@ function getPanoptesUser(panoptesToken) {
 const app = express();
 
 app.use((req, res, next) => {
-  var allowedOrigins = /^(https:\/\/vote\.zooniverse\.org|http:\/\/local.zooniverse\.org(:\d+)?)$/;
+  var allowedOrigins = /^(https:\/\/(vote|voting-app.preview)\.zooniverse\.org|http:\/\/local.zooniverse\.org(:\d+)?)$/;
   var origin = req.headers.origin;
   if (origin.match(allowedOrigins)) {
     res.set('Access-Control-Allow-Origin', origin);
