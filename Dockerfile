@@ -1,4 +1,4 @@
-FROM node:argon
+FROM node:7
 
 # Install app dependencies
 RUN mkdir /express-app
